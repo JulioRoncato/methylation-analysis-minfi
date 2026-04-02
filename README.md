@@ -1,40 +1,107 @@
-# DNA Methylation Analysis Documentation
+# 🧬 DNA Methylation Analysis with minfi - TCGA Data
 
-## Biological Background
-DNA methylation is an epigenetic mechanism that plays a crucial role in regulating gene expression. It involves the addition of a methyl group to the DNA molecule, typically at cytosine bases, which can impact the transcriptional activity of genes. Aberrant DNA methylation patterns are often associated with various diseases, including cancer.
+## 🔬 Biological Background
 
-## Experimental Design
-In this analysis, we focus on the DNA methylation profiles from The Cancer Genome Atlas (TCGA) project. The experimental design includes sample selection criteria, technical replicates, and controls to ensure robust and reproducible results.
+DNA methylation is an epigenetic modification that regulates gene expression without altering DNA sequence. Aberrant methylation patterns are hallmarks of cancer, including:
+- **Hypermethylation** of CpG islands in promoter regions (gene silencing)
+- **Hypomethylation** of repetitive elements (chromosomal instability)
 
-## Bioinformatics Workflow with TCGA Data
-The bioinformatics workflow consists of several key steps: 1) obtaining TCGA methylation data, 2) preprocessing the data, 3) performing quality control, 4) conducting normalization, and 5) executing differential methylation analysis.
+This project analyzes methylation patterns from TCGA datasets to identify cancer-specific methylation signatures.
 
-## Quality Control
-Quality control steps include visualizing raw data distributions, identifying outliers, and assessing the overall data integrity. Tools commonly used for this purpose include boxplots and PCA plots.
+---
 
-## Normalization
-Normalization is essential to remove technical biases and ensure comparability across samples. Methods such as Beta Mixture Quantile Dilution (BMIQ) or quantile normalization may be employed.
+## 🧪 Experimental Design
 
-## Differential Methylation Analysis
-Differential methylation analysis aims to identify specific loci where methylation levels differ significantly between sample groups (e.g., tumor vs. normal). Statistical methods like linear models or logistic regression may be applied.
+Illumina 450K or EPIC methylation microarray data from TCGA cohorts (e.g., BRCA, LUAD, COAD)
 
-## Functional Annotation
-Functional annotation involves mapping differentially methylated regions (DMRs) to genomic features, such as genes and regulatory elements. This provides biological context and helps to hypothesize on the regulatory implications of methylation changes.
+| Analysis Type | Goal |
+|---|---|
+| Quality Control | Detect failed samples, technical artifacts |
+| Normalization | Remove batch effects (Noob, SSN, SWAN) |
+| Differential Methylation | Identify DM-CpGs between phenotypes |
+| DMR Detection | Regional methylation changes |
 
-## Visualization
-Visualizing methylation data is crucial for interpreting results. Common visualization techniques include heatmaps, volcano plots, and methylation profiles across genes or regions of interest.
+---
 
-## Data Availability
-All data utilized in this analysis are obtained from the TCGA database. Access to TCGA data may be subject to specific guidelines and user agreements. 
+## ⚙️ Bioinformatics Workflow
 
-## Tools Used
-The following tools and packages were used during the analysis: 1) R/Bioconductor, 2) minfi, 3) ChAMP, 4) Biobase.
+### 1️⃣ Data Import & Quality Control
+- Load IDAT files using **minfi**
+- Quality metrics (detection p-values, intensities)
+- Sample filtering based on QC thresholds
 
-## Clinical Relevance
-Understanding DNA methylation alterations has significant implications for cancer diagnosis, prognosis, and treatment strategies. It may uncover novel biomarkers for patient stratification and therapeutic targets.
+### 2️⃣ Normalization
+- **NOOB** (Normal-Exponential Out-of-Band) normalization
+- **SWAN** (Subset-Quantile Within Array Normalization)
+- Batch effect removal with **ComBat** or **SVA**
 
-## Considerations
-It is important to consider the biological variability and experimental design when interpreting methylation data. Additionally, integrating methylation data with other omics layers enhances the understanding of cancer biology.
+### 3️⃣ Differential Methylation Analysis
+- Beta-value analysis with **limma**
+- DMR detection with **DMRcate** or **Bumphunter**
+- Annotation to genes and regulatory regions
 
-## References
-- Please cite relevant literature and datasets that support your analysis.
+### 4️⃣ Functional Annotation
+- CpG island status
+- Gene promoter associations
+- Pathway enrichment of hypermethylated genes
+
+### 5️⃣ Visualization
+- Heatmaps of top DM-CpGs
+- Manhattan plots
+- CpG density across chromosomes
+- PCA/MDS for sample relationships
+
+---
+
+## 📊 Data Visualization
+
+### Quality Control
+![QC Plots](figures/methylation_qc.png)
+
+### Differential Methylation
+![DMR Heatmap](figures/dmr_heatmap.png)
+
+### Functional Enrichment
+![Pathway Enrichment](figures/methylation_enrichment.png)
+
+---
+
+## 🔐 Data Source
+
+Methylation data from The Cancer Genome Atlas (TCGA)
+- **Cohorts**: BRCA, LUAD, COAD, OV
+- **Platform**: Illumina 450K/EPIC array
+
+---
+
+## 🛠️ Tools and R Packages Used
+
+### R / Bioconductor
+- **minfi** - Preprocessing and analysis of Illumina methylation microarrays
+- **limma** - Differential methylation analysis
+- **DMRcate** - Detection and annotation of differentially methylated regions
+- **IlluminaHumanMethylation450kanno.ilmn12.hg19** - Annotation package
+- **SVA** - Surrogate Variable Analysis (batch correction)
+- **ggplot2** - Visualization
+
+### Databases
+- TCGA (https://www.cancer.gov/ccg/research/genome-sequencing/tcga)
+- CpG Island Database
+
+---
+
+## 📌 Clinical Relevance
+
+This project demonstrates:
+- Identification of **cancer-specific methylation biomarkers**
+- **Epigenetic stratification** of tumor subtypes
+- Application of methylation patterns for **prognosis and treatment prediction**
+- Connection between epigenetic changes and gene silencing in cancer
+
+---
+
+## ⚠️ Considerations
+
+- **Microarray vs Sequencing**: This analysis uses microarray data (targeted CpG coverage)
+- **Batch Effects**: TCGA samples processed across multiple centers; batch correction is critical
+- **FDR Control**: Multiple testing correction necessary for millions of CpG sites
