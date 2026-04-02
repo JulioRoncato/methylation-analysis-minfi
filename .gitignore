@@ -1,0 +1,13 @@
+# .gitignore
+
+# Exclude IDAT files
+*.idat
+
+# Exclude BAM files
+*.bam
+
+# Exclude large data files
+*.large_data
+
+# Exclude intermediate results
+*intermediate*
