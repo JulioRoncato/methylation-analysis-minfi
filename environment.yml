@@ -1,0 +1,19 @@
+name: methylation-analysis
+channels:
+  - bioconda
+  - conda-forge
+  - biocore
+  - defaults
+dependencies:
+  - r=4.2
+  - r-minfi
+  - r-limma
+  - r-dmrcate
+  - r-sva
+  - r-chipseeker
+  - r-org.hs.eg.db
+  - r-ggplot2
+  - r-pheatmap
+  - r-dplyr
+  - r-tidyr
+  - r-svglite
